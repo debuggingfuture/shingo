@@ -14,6 +14,74 @@ import { uploadWithValues } from '../storage/file';
 import { RelayerResult } from '@lens-protocol/client/dist/declarations/src/graphql/types.generated';
 
 
+
+export const createComment = async ( wallet: ethers.Wallet, profileId: string, metadata={}) =>{
+  const lensClient = await createClient(wallet);
+
+  const contentMetadata = {
+    ttributes: [
+      // {
+      //   displayType: PublicationMetadataDisplayTypes.String,
+      //   traitType: "Created with",
+      //   value: "LensClient SDK",
+      // },
+    ],
+    version: '2.0.0',
+    metadata_id: uuidv4(),
+    locale: 'en-US',
+    external_url: null,
+    image: null,
+    imageMimeType: null,
+    name: "Post created with LensClient SDK",
+    tags: [ "beachsignalv2145"],
+
+    // mainContentFocus: PublicationMainFocus.TextOnly,
+    content: `Turtle comes back`,
+
+    mainContentFocus: PublicationMainFocus.Image,
+    media :[
+      {
+        type: 'image/jpeg',
+        altTag: 'image',
+        // can be ipfs:// or https:
+        // item: imageUrl
+        // item: 'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large'
+      }
+    ],
+  }
+
+  const cid =  await uploadWithValues([contentMetadata])
+  // seems cid wrapped in directory is not supported. ensure configure at file client
+
+  const contentURI = `ipfs://${cid}`;
+  
+// create a comment via dispatcher, you need to have the dispatcher enabled for the profile
+const viaDispatcherResult = await lensClient.publication.createCommentViaDispatcher({
+  profileId,
+  publicationId: '',
+  contentURI,
+  collectModule: {
+    revertCollectModule: true, // collect disabled
+  },
+  referenceModule: {
+    followerOnlyReferenceModule: false, // anybody can comment or mirror
+  },
+});
+
+// or with typedData that require signature and broadcasting
+const typedDataResult = await lensClient.publication.createCommentTypedData({
+  profileId,
+  publicationId: '',
+  contentURI,
+  collectModule: {
+    revertCollectModule: true, // collect disabled
+  },
+  referenceModule: {
+    followerOnlyReferenceModule: false, // anybody can comment or mirror
+  },
+});
+}
+
 export const createPost = async (imageUrl: string, wallet: ethers.Wallet, profileId: string, metadata={}) => {
     const lensClient = await createClient(wallet);
 

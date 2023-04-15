@@ -39,17 +39,30 @@ describe("create", () => {
         const items = [
             {
          name: 'Cleanup at Singapore',
+         date: '2021-09-01',
           
         },
         {
-            name: 'Cleanup at Tokyo',   
-           },
+            name: 'Cleanup at Tokyo',  
+            date: '2022-06-01',
+        },
         {
-        name: 'Cleanup at Tegucigalpa',   
+            name: 'Cleanup at Tegucigalpa',   
+            date: '2022-06-01',
         },
         {
             name: 'Cleanup at Hong Kong',   
-        }
+            date: '2022-05-01',
+        },
+
+        {
+            name: 'Cleanup at Fukuoka',   
+            date: '2022-11-03',
+        },
+        {
+            name: 'Cleanup at Osaka',   
+            date: '2023-02-01',
+        },
         
         ];
         

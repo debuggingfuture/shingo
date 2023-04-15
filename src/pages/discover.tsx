@@ -4,6 +4,7 @@ import { usePublications, useFeed, useExplorePublications, useSearchPublications
 import Grid from '@mui/material/Grid';
 import _ from 'lodash';
 import CauseCard from '../components/CauseCard';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +28,11 @@ const CardList = ({ publications }: { publications: any[] }) => {
           publications.map((publication) => {
             return (
               <Grid className="item">
-                <CauseCard publication={publication} />
+                <Link
+                  href={`/cause/${publication.id}`}
+                >
+                  <CauseCard publication={publication} />
+                </Link>
               </Grid>
             )
           })
@@ -60,26 +65,6 @@ const Feed = () => {
     {JSON.stringify(publications[0])}
 
   </div>
-}
-
-
-const TrendingList = () => {
-  const data = _.range(0, 3);
-  return (
-    <div>
-      <Grid container>
-        {
-          data.map((item) => {
-            return (
-              <Grid className="item">
-                <CauseCard />
-              </Grid>
-            )
-          })
-        }
-      </Grid>
-    </div>
-  )
 }
 
 export default function Discover() {

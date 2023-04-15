@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { createClient } from './client';
 import { jest, describe, expect, it, beforeAll } from "@jest/globals";
-import { createPost } from "./create";
+import { createPost, createComment } from "./create";
 import { LensClient, Profile, RelayerResultFragment, 
   isRelayerResult,
   PublicationMainFocus,
@@ -69,24 +69,6 @@ describe("create", () => {
         await createProfile(lensClient, wallet, handle);
       })
   it("create", async () => {
-    // const results = await create();
-
-
-    // const contentMetadata = {
-    //   version: '2.0.0',
-    //   mainContentFocus: PublicationMainFocus.TextOnly,
-    //   metadata_id: uuidv4(),
-    //   description: 'Description',
-    //   locale: 'en-US',
-    //   content: 'Content',
-    //   external_url: null,
-    //   image: null,
-    //   imageMimeType: null,
-    //   name: 'Name',
-    //   attributes: [],
-    //   tags: ['using_api_examples'],
-    //   appId: 'api_examples_github',
-    // }
     // seems cid wrapped in directory is not supported. ensure configure at file client
 
     // const imageUrl = 'ipfs://bafybeig2gaxisstynvnlze55dpub7apzusy33kapge2ehk7jlkftaycss4/clean1.jpg';
@@ -115,4 +97,15 @@ describe("create", () => {
 
 
   });
+
+  it('createComment', async ()=>{
+    const { txId, txHash, contentMetadata} = await createComment(wallet, profileId, lensClient,
+      {
+
+      });
+
+    const txUrl = `https://mumbai.polygonscan.com/address/${txHash}`
+    console.log('createdPost with', contentMetadata, txUrl)
+
+  })
 });
