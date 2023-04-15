@@ -31,7 +31,11 @@ const client = createClient({
 });
 
 
-let theme = createTheme();
+let theme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 theme = responsiveFontSizes(theme);
 
 export default function App({ Component, pageProps }: AppProps) {

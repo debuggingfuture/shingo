@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { createClient } from './client';
 import { jest, describe, expect, it, beforeAll } from "@jest/globals";
-import { createPost, createComment } from "./create";
+import { createPost, createComment } "./create";
 import { LensClient, Profile, RelayerResultFragment, 
   isRelayerResult,
   PublicationMainFocus,
@@ -99,8 +99,7 @@ describe("create", () => {
   });
 
   it('createComment', async ()=>{
-    const { txId, txHash, contentMetadata} = await createComment(wallet, profileId, lensClient,
-      {
+    const { txId, txHash, contentMetadata} = await createComment(wallet, profileId, lensClient,{
 
       });
 

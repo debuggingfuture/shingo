@@ -56,47 +56,77 @@ export default function Cause(props: any) {
                 </Grid>
 
             </Grid>
-            <Typography variant="h3" gutterBottom>
-                Clean the Beach
-            </Typography>
+
             <Grid
                 container
-                direction="row"
 
+                direction="column"
                 textAlign="center"
                 justifyContent="center"
+                justifyContent="space-around"
                 alignItems="center"
             >
-                <Grid item xs={4} justifyContent="center" alignItems="center">
-                    <HypercertCard nftMetadata={{}} />
+                <Grid item >
+                    <Typography variant="h4" gutterBottom>
+                        Clean the Beach
+                    </Typography>
+                </Grid>
+                <Grid container
+                    columnSpacing={0}
+                    // justifyContent="center"
+                    justifyContent="space-around"
+                >
+                    <Grid item xs={3} justifyContent="center" alignItems="center">
+                        <HypercertCard nftMetadata={{}} />
+
+                    </Grid>
+                    <Grid item xs={6} sx={{ border: 1 }} justifyContent="center" alignItems="center">
+                        <Grid container direction="column">
+                            <Grid item>
+                                <Typography variant="h6" gutterBottom>
+                                    Signal others this is important
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained" color="success">
+                                    Signal by Collect NFT
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        <Grid container direction="column">
+                            <Grid item>
+                                <Typography variant="h6" gutterBottom>
+                                    Volunteer
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Button variant="contained" color="success">
+                                    I want to Volunteer
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+
+                    </Grid>
 
                 </Grid>
+
+                {/* <Grid item xs={2}>
+                    Sessions
+                    Friday, April 28, 2023 at 6:00 PM to Friday, April 28, 2023 at 9:00 PM EDT
+                    BlackRock Park Avenue Plaza Atrium
+                    55 E. 52nd Street, Between Park & Madison Avenue · New York, NY
+
+                </Grid> */}
+
             </Grid>
-            <Grid container>
-                <Typography variant="h2" gutterBottom>
+            {/* <Grid container>
+                <Typography variant="h4" gutterBottom>
                     Hypercert
                 </Typography>
+            </Grid> */}
 
-            </Grid>
-
-
-            <Grid container>
-                <Typography variant="h3" gutterBottom>
-                    Signal others this is important
-                </Typography>
-                <Button variant="contained" color="success">
-                    Signal by Collect NFT
-                </Button>
-            </Grid>
-
-            <Grid container>
-                <Typography variant="h3" gutterBottom>
-                    Volunteer
-                </Typography>
-                <Button variant="contained" color="success">
-                    I want to Volunteer
-                </Button>
-            </Grid>
 
 
             <Grid container>
@@ -110,11 +140,21 @@ export default function Cause(props: any) {
                 </Grid>
 
 
+
+
+
                 <Grid container item direction="row" xs={8} justifyContent="flex-start" alignItems="flex-start">
 
                 </Grid>
 
             </Grid>
+
+
+
+
+            <br />
+
+
 
             <Grid container >
                 <Endorsements endorsements={[]} />

@@ -55,8 +55,7 @@ export const ProfileMenu = () => {
     const { data: profile } = useActiveProfile();
     console.log('wallet', wallet, 'profile', profile?.handle);
     return (
-        <div style={{ backgroundColor: '#00501e' }}>
-            {profile?.handle}
+        <div style={{ backgroundColor: '#00501e', color: 'white' }}>
             <LoginButton wallet={wallet} />
             {/* <LogoutButton /> */}
 
