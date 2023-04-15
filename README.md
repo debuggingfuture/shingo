@@ -39,6 +39,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ______
 
+This software is provided as an open source project licensed under the terms of the MIT License.
+
 Copyright (c) 2023 Shibō Social Impact App
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
