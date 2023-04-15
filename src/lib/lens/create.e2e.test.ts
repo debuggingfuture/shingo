@@ -34,46 +34,69 @@ describe("create", () => {
     })
         
         
-    it('create mocks posts', async ()=>{
+    it('create mocks posts with comments', async ()=>{
 
         const items = [
             {
-         name: 'Cleanup at Singapore',
-         date: '2021-09-01',
+            name: 'Cleanup at Singapore',
+            // date: '2021-09-01',
+
+            comments :[
+                {
+                    name: 'evaluation on water',
+                    description: 'best ever'
+                },
+                {
+                    name: 'evaluation on Turtle',
+                    description: 'this helps turtle'
+                },
+                {
+                    name: 'evaluation on Co2',
+                    description: 'amazing'
+                }
+            ]
           
         },
-        {
-            name: 'Cleanup at Tokyo',  
-            date: '2022-06-01',
-        },
-        {
-            name: 'Cleanup at Tegucigalpa',   
-            date: '2022-06-01',
-        },
-        {
-            name: 'Cleanup at Hong Kong',   
-            date: '2022-05-01',
-        },
+        // {
+        //     name: 'Cleanup at Tokyo',  
+        //     date: '2022-06-01',
+        // },
+        // {
+        //     name: 'Cleanup at Tegucigalpa',   
+        //     date: '2022-06-01',
+        // },
+        // {
+        //     name: 'Cleanup at Hong Kong',   
+        //     date: '2022-05-01',
+        // },
 
-        {
-            name: 'Cleanup at Fukuoka',   
-            date: '2022-11-03',
-        },
-        {
-            name: 'Cleanup at Osaka',   
-            date: '2023-02-01',
-        },
+        // {
+        //     name: 'Cleanup at Fukuoka',   
+        //     date: '2022-11-03',
+        // },
+        // {
+        //     name: 'Cleanup at Osaka',   
+        //     date: '2023-02-01',
+        // },
         
         ];
         
     
         await Promise.all(items.map(async(metadata, i)=>{
             const imageUrl = `https://ipfs.io/ipfs/bafybeig2gaxisstynvnlze55dpub7apzusy33kapge2ehk7jlkftaycss4/clean${i}.jpg`
-            const { txId, txHash, contentMetadata} = await createPost(imageUrl, wallets[i], profileIds[i], metadata);
+            const { txId, txHash, contentMetadata} = await createPost(imageUrl, wallets[i], profileIds[i], 
+                
+                _.omit(metadata, ['comments', 'date'])
+                
+            );
                 
             const txUrl = `https://mumbai.polygonscan.com/address/${txHash}`
             console.log('createdPost with', contentMetadata, txUrl)
-    
+
+            const results = await lensClient.transaction.waitForIsIndexed(txId);
+
+            console.log('results', results)
+
             return { txId, txHash, contentMetadata}
         }));
 

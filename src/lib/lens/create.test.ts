@@ -1,17 +1,16 @@
 import _ from 'lodash';
 import { createClient } from './client';
 import { jest, describe, expect, it, beforeAll } from "@jest/globals";
-import { createPost, createComment } "./create";
+import { createPost, createComment } from "./create";
 import { LensClient, Profile, RelayerResultFragment, 
   isRelayerResult,
   PublicationMainFocus,
   PublicationMetadataDisplayTypes, 
   PublicationMetadataV2Input} from "@lens-protocol/client";
-import { v4 as uuidv4 } from 'uuid';
 
 import { ethers } from "ethers";
 import {  uploadWithValues } from '../storage/file';
-import { createProfile } from './utils';
+import { createProfile, getProfileUrl } from './utils';
 
 
 jest.setTimeout(5*60*1000);
@@ -22,13 +21,16 @@ describe("create", () => {
     let lensClient: LensClient;
 
     let profileId: string;
+  
+    let handle: string;
     const wallet = ethers.Wallet.createRandom();
-
+  
     const address = wallet.address
 
     beforeAll(async ()=>{
         lensClient = await createClient(wallet);
-        
+
+
         // lensClient is an authenticated instance of LensClient
 
         // const profileCreateResult = await lensClient.profile.create({ 
@@ -65,8 +67,14 @@ describe("create", () => {
 
         // console.log('set dispatcher success', dispatcherResults)
         const handlePrefix = '';
-        const handle = (handlePrefix || 'w3btest')+ _.random(1, 10000);
-        await createProfile(lensClient, wallet, handle);
+        handle = (handlePrefix || 'w3btest')+ _.random(1, 10000);
+       const createdProfile =  await createProfile(lensClient, wallet, handle);
+
+       if(createdProfile){
+        profileId = (createdProfile.profileId as string);
+
+       }
+        
       })
   it("create", async () => {
     // seems cid wrapped in directory is not supported. ensure configure at file client
@@ -98,13 +106,54 @@ describe("create", () => {
 
   });
 
-  it('createComment', async ()=>{
-    const { txId, txHash, contentMetadata} = await createComment(wallet, profileId, lensClient,{
+  it.only('createComment with text', async ()=>{
+    const testPublicationId = '0x773d-0x01';
+    const {
+      contentURI,
+      contentMetadata,
+      viaDispatcherResult
+    } = await createComment(testPublicationId, wallet, profileId, {
 
-      });
+      })
 
+
+    const {txId, txHash} = viaDispatcherResult.unwrap() as RelayerResultFragment;
     const txUrl = `https://mumbai.polygonscan.com/address/${txHash}`
-    console.log('createdPost with', contentMetadata, txUrl)
+    console.log('createComment with profileId', profileId, getProfileUrl(handle, "replies"), contentMetadata, txUrl)
+
+    await lensClient.transaction.waitForIsIndexed(txId);
+
 
   })
+
+
+  it.only('createComment with image', async ()=>{
+    const testPublicationId = '0x773d-0x01';
+    const {
+      contentURI,
+      contentMetadata,
+      viaDispatcherResult
+    } = await createComment(testPublicationId, wallet, profileId, {
+      mainContentFocus: PublicationMainFocus.Image,
+      content: `Turtle comes back`,
+    media :[
+      {
+        type: 'image/jpeg',
+        altTag: 'image',
+        // can be ipfs:// or https:
+        item: 'http://images.fineartamerica.com/images-medium-large/green-turtle-laying-eggs-alexis-rosenfeld.jpg'
+      }
+    ],   
+      })
+
+
+    const {txId, txHash} = viaDispatcherResult.unwrap() as RelayerResultFragment;
+    const txUrl = `https://mumbai.polygonscan.com/address/${txHash}`
+    console.log('createComment with profileId', profileId, getProfileUrl(handle, "replies"), contentMetadata, txUrl)
+
+    await lensClient.transaction.waitForIsIndexed(txId);
+
+  })
+
+
 });

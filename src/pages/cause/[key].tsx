@@ -1,5 +1,7 @@
 // import Image from 'next/image'
 import MuiImage from 'mui-image';
+import { createProfile, getProfileUrl, getPostUrl } from '~/lib/lens/utils';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 
 import { Inter } from 'next/font/google'
@@ -7,9 +9,11 @@ import Grid from '@mui/material/Grid'
 import { Avatar, Button } from '@mui/material'
 import Typography from '@mui/material/Typography';
 import { EndorseCard } from '~/components/EndorseCard'
-
+import { usePublications, useFeed, useExplorePublications, useSearchPublications } from '@lens-protocol/react-web';
 import { HypercertCard } from '~/components/Hypercert'
-
+import { createFilter } from '~/components/create-publication-filter';
+import { useActiveProfile, useActiveWallet, useWalletLogout } from '@lens-protocol/react-web';
+import { CommentEditor } from '~/components/CommentEditor';
 // import CleanImage from '../../public/clean1.jpg'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -27,7 +31,42 @@ export const Endorsements = ({ endorsements }: { endorsements: any[] }) => {
 }
 
 export default function Cause(props: any) {
-    const { key = "1" } = props;
+    const { key } = props;
+
+
+
+    const {
+        data: publications,
+        loading,
+        hasMore,
+        next,
+    } = useExplorePublications({
+        limit: 10,
+        metadataFilter: createFilter({
+            postId: key
+        })
+    });
+
+    const { data: profile } = useActiveProfile()
+    console.log('profile', profile?.handle);
+
+    const handle = profile?.handle
+    // if (!key) {
+    //     return <div />
+    // }
+
+
+    if (!publications) {
+        return <div />
+    }
+
+    console.log('publications', publications);
+
+    // const { lensterUrl } = getProfileUrl(handle)
+
+    const { lensterUrl: lensterPostUrl } = getPostUrl(key)
+
+
     return (
         <>
             <Grid container direction="row" justifyContent="center" alignItems="center">
@@ -59,20 +98,24 @@ export default function Cause(props: any) {
 
             <Grid
                 container
-
                 direction="column"
                 textAlign="center"
-                justifyContent="center"
-                justifyContent="space-around"
+                justif yContent="space-around"
                 alignItems="center"
             >
                 <Grid item >
                     <Typography variant="h4" gutterBottom>
                         Clean the Beach
                     </Typography>
+                    <a href={lensterPostUrl} target="_blank">
+                        <IconButton style={{ width: '35px' }} aria-label="Lenster">
+                            <img src="https://testnet.lenster.xyz/logo.svg" />
+                        </IconButton>
+                    </a>
                 </Grid>
                 <Grid container
                     columnSpacing={0}
+
                     // justifyContent="center"
                     justifyContent="space-around"
                 >
@@ -80,7 +123,9 @@ export default function Cause(props: any) {
                         <HypercertCard nftMetadata={{}} />
 
                     </Grid>
-                    <Grid item xs={6} sx={{ border: 1 }} justifyContent="center" alignItems="center">
+                    <Grid item xs={6} sx={{ border: 1 }}
+                        columnSpacing={36}
+                        justifyContent="center" alignItems="center">
                         <Grid container direction="column">
                             <Grid item>
                                 <Typography variant="h6" gutterBottom>
@@ -94,6 +139,9 @@ export default function Cause(props: any) {
                             </Grid>
                         </Grid>
 
+
+
+
                         <Grid container direction="column">
                             <Grid item>
                                 <Typography variant="h6" gutterBottom>
@@ -105,20 +153,34 @@ export default function Cause(props: any) {
                                     I want to Volunteer
                                 </Button>
                             </Grid>
+
+
                         </Grid>
+                        <br />
+                        <Grid container justifyContent="center"
+                            direction="column"
+                            alignItems="center">
+                            <Grid item>
+                                <Typography variant="h6" gutterBottom>
+                                    Sessions
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={10}>
+                                Sessions
+                                Friday, April 28, 2023 at 6:00 PM to Friday, April 28, 2023 at 9:00 PM EDT
+                                BlackRock Park Avenue Plaza Atrium
+                                55 E. 52nd Street, Between Park & Madison Avenue · New York, NY
+
+                            </Grid>
+                        </Grid>
+
 
 
                     </Grid>
 
                 </Grid>
 
-                {/* <Grid item xs={2}>
-                    Sessions
-                    Friday, April 28, 2023 at 6:00 PM to Friday, April 28, 2023 at 9:00 PM EDT
-                    BlackRock Park Avenue Plaza Atrium
-                    55 E. 52nd Street, Between Park & Madison Avenue · New York, NY
 
-                </Grid> */}
 
             </Grid>
             {/* <Grid container>
@@ -141,6 +203,7 @@ export default function Cause(props: any) {
 
 
 
+                <CommentEditor />
 
 
                 <Grid container item direction="row" xs={8} justifyContent="flex-start" alignItems="flex-start">

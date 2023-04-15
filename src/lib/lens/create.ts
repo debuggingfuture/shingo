@@ -15,11 +15,14 @@ import { RelayerResult } from '@lens-protocol/client/dist/declarations/src/graph
 
 
 
-export const createComment = async ( wallet: ethers.Wallet, profileId: string, metadata={}) =>{
+export const createComment = async ( publicationId:string,  wallet: ethers.Wallet, profileId: string, metadata={}) =>{
   const lensClient = await createClient(wallet);
 
+  console.log('createComment', publicationId, profileId, metadata)
+
   const contentMetadata = {
-    ttributes: [
+    profileId,
+    attributes: [
       // {
       //   displayType: PublicationMetadataDisplayTypes.String,
       //   traitType: "Created with",
@@ -35,19 +38,20 @@ export const createComment = async ( wallet: ethers.Wallet, profileId: string, m
     name: "Post created with LensClient SDK",
     tags: [ "beachsignalv2145"],
 
-    // mainContentFocus: PublicationMainFocus.TextOnly,
-    content: `Turtle comes back`,
+    mainContentFocus: PublicationMainFocus.TextOnly,
+    content: `Amazing!`,
+    ...metadata
 
-    mainContentFocus: PublicationMainFocus.Image,
-    media :[
-      {
-        type: 'image/jpeg',
-        altTag: 'image',
-        // can be ipfs:// or https:
-        // item: imageUrl
-        // item: 'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large'
-      }
-    ],
+    // mainContentFocus: PublicationMainFocus.Image,
+    // media :[
+      // {
+      //   type: 'image/jpeg',
+      //   altTag: 'image',
+      //   // can be ipfs:// or https:
+      //   // item: imageUrl
+      //   // item: 'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large'
+      // }
+    // ],
   }
 
   const cid =  await uploadWithValues([contentMetadata])
@@ -58,7 +62,7 @@ export const createComment = async ( wallet: ethers.Wallet, profileId: string, m
 // create a comment via dispatcher, you need to have the dispatcher enabled for the profile
 const viaDispatcherResult = await lensClient.publication.createCommentViaDispatcher({
   profileId,
-  publicationId: '',
+  publicationId,
   contentURI,
   collectModule: {
     revertCollectModule: true, // collect disabled
@@ -68,18 +72,12 @@ const viaDispatcherResult = await lensClient.publication.createCommentViaDispatc
   },
 });
 
-// or with typedData that require signature and broadcasting
-const typedDataResult = await lensClient.publication.createCommentTypedData({
-  profileId,
-  publicationId: '',
-  contentURI,
-  collectModule: {
-    revertCollectModule: true, // collect disabled
-  },
-  referenceModule: {
-    followerOnlyReferenceModule: false, // anybody can comment or mirror
-  },
-});
+  return {
+    contentMetadata,
+    contentURI,
+    viaDispatcherResult
+  }
+
 }
 
 export const createPost = async (imageUrl: string, wallet: ethers.Wallet, profileId: string, metadata={}) => {
@@ -158,8 +156,6 @@ export const createPost = async (imageUrl: string, wallet: ethers.Wallet, profil
       });
   
       console.log('viaDispatcherResult', viaDispatcherResult.unwrap());
-      // console.log('viaDispatcherResult', viaDispatcherResult.unwrap()['reason']);
-
 
       return {
         ...viaDispatcherResult.unwrap()  as RelayerResult,

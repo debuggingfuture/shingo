@@ -7,6 +7,30 @@ import { ethers } from "ethers";
 // - query ownedby wallet address to find latest created
 // - poll txn until indexed to get profileid
 
+// replies
+export const getProfileUrl = (handle:string, type="profile")=>{
+    const lensterUrl = 'https://testnet.lenster.xyz/u/'+handle+"?type="+type;
+
+
+    
+    return {
+      lensterUrl
+    }
+}
+
+
+export const getPostUrl = (postId:string)=>{
+  const lensterUrl = 'https://testnet.lenster.xyz/posts/'+postId;
+
+
+  
+  return {
+    lensterUrl
+  }
+}
+
+
+getPostUrl
 
 
 // From official example, modify to wait with sdk instead,  mostly for testing
@@ -83,10 +107,9 @@ export const createProfile = async (lensClient:LensClient, wallet: ethers.Wallet
     
     const dispatcherResults = await setDispatcher(lensClient, wallet, profileId)
 
-    console.log('set dispatcher success', dispatcherResults);
-
     return {
         profileId,
-        lensterUrl
+        lensterUrl,
+        dispatcherResults
     }
 }

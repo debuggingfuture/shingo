@@ -6,7 +6,7 @@ import _ from 'lodash';
 import CauseCard from '../components/CauseCard';
 import Link from 'next/link';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 const metadataFilter: PublicationMetadataFilters = {
   // restrictPublicationMainFocusTo?: PublicationMainFocus[];
@@ -26,6 +26,7 @@ const CardList = ({ publications }: { publications: any[] }) => {
       <Grid container>
         {
           publications.map((publication) => {
+            console.log('publication', publication);
             return (
               <Grid className="item">
                 <Link

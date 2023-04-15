@@ -2,6 +2,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ExploreIcon from '@mui/icons-material/Explore';
 import BackHandIcon from '@mui/icons-material/BackHand';
+import SensorIcon from '@mui/icons-material/Sensors';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 // import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
@@ -18,7 +19,7 @@ export const Nav = () => {
     // }}
     >
       {/* <BottomNavigationAction label="Discover" icon={<ExploreIcon />} /> */}
-      <BottomNavigationAction label="Causes" icon={<VolunteerActivismIcon />} />
+      <BottomNavigationAction label="Causes" icon={<SensorIcon />} />
       <BottomNavigationAction label="Donate" icon={<VolunteerActivismIcon />} />
       <BottomNavigationAction label="Organize" icon={<ManageAccountsIcon />} />
     </BottomNavigation>
