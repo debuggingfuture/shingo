@@ -1,6 +1,6 @@
 This repo is a complete web application, built on Lens Protocol for social networks https://www.lens.xyz/ and Superfluid asset streaming protocol https://www.superfluid.finance/.  For hosting, IPFS has been employed.
 
-Shibō Social Impact App was developed for the ETHTokyo Hackathon, April 14-16 2023.  The purpose of this application is as a prototype and proof-of-concept for a social media based web application that utilizes on-chain awards to incentivize and recognize public goods providers and volunteers.
+Shingō Social Impact App was developed for the ETHTokyo Hackathon, April 14-16 2023.  The purpose of this application is as a prototype and proof-of-concept for a social media based web application that utilizes on-chain awards to incentivize and recognize public goods providers and volunteers.
 
 The project demo may be found here: 
 
@@ -10,7 +10,7 @@ ______
 
 This software is provided as an open source project licensed under the terms of the MIT License.
 
-Copyright (c) 2023 Shibō Social Impact App
+Copyright (c) 2023 Shingō Social Impact App
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
