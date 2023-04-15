@@ -1,4 +1,4 @@
-
+import _ from 'lodash';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { mainnet, polygon } from 'wagmi/chains';
 
@@ -8,7 +8,6 @@ import { Profile } from './Profile';
 import { LensConfig, LensProvider, PublicationMetadataFilters, staging } from '@lens-protocol/react-web';
 import { usePublications, useFeed, useExplorePublications, useSearchPublications } from '@lens-protocol/react-web';
 import { Card, CardHeader, CardMedia, CardContent, Grid, } from '@mui/material';
-import _ from 'lodash';
 import { bindings as wagmiBindings } from '@lens-protocol/wagmi';
 import CauseCard from './CauseCard';
 import { Publication } from '@lens-protocol/client';

@@ -55,7 +55,7 @@ describe("create", () => {
         
     
         await Promise.all(items.map(async(metadata, i)=>{
-            const imageUrl = `https://ipfs.io/ipfs/bafybeig2gaxisstynvnlze55dpub7apzusy33kapge2ehk7jlkftaycss4/clean{$i}.jpg`
+            const imageUrl = `https://ipfs.io/ipfs/bafybeig2gaxisstynvnlze55dpub7apzusy33kapge2ehk7jlkftaycss4/clean${i}.jpg`
             const { txId, txHash, contentMetadata} = await createPost(imageUrl, wallets[i], profileIds[i], metadata);
                 
             const txUrl = `https://mumbai.polygonscan.com/address/${txHash}`

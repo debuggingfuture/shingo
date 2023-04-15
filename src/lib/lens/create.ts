@@ -32,13 +32,11 @@ export const createPost = async (imageUrl: string, wallet: ethers.Wallet, profil
         external_url: null,
         image: null,
         imageMimeType: null,
-  
         name: "Post created with LensClient SDK",
-        tags: ["lens-sdk", "beachsignalv2"],
+        tags: [ "beachsignalv2145"],
   
         // mainContentFocus: PublicationMainFocus.TextOnly,
-        content: ```
-        Our #ImpactOnboarding meetup trained 35 teachers in Emergency First Response while introducing them to 
+        content: `Our #ImpactOnboarding meetup trained 35 teachers in Emergency First Response while introducing them to 
 @ethereum
 , L2 
 @optimismFND
@@ -49,8 +47,7 @@ export const createPost = async (imageUrl: string, wallet: ethers.Wallet, profil
   
 @EF_ESP
  
-@EthereumHN
-```,
+@EthereumHN`,
   
         mainContentFocus: PublicationMainFocus.Image,
         media :[
