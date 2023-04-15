@@ -1,32 +1,45 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
+const hre = require("hardhat")
+const { Framework } = require("@superfluid-finance/sdk-core")
+require("dotenv").config()
 
+//to run this script:
+//1) Make sure you've created your own .env file
+//2) Make sure that you have your network specified in hardhat.config.js
+//3) run: npx hardhat run scripts/deploy.js --network goerli
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+    // Hardhat always runs the compile task when running scripts with its command
+    // line interface.
+    //
+    // If this script is run directly using `node` you may want to call compile
+    // manually to make sure everything is compiled
+    // await hre.run('compile');
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
+    const provider = new hre.ethers.providers.JsonRpcProvider(
+        process.env.GOERLI_URL
+    )
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+    const sf = await Framework.create({
+        chainId: (await provider.getNetwork()).chainId,
+        provider
+    })
 
-  await lock.deployed();
+    const signers = await hre.ethers.getSigners()
+    // We get the contract to deploy
+    const MoneyRouter = await hre.ethers.getContractFactory("MoneyRouter")
+    //deploy the money router account using the proper host address and the address of the first signer
+    const moneyRouter = await MoneyRouter.deploy(
+        // sf.settings.config.hostAddress,
+        signers[0].address
+    )
 
-  console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+    await moneyRouter.deployed()
+
+    console.log("MoneyRouter deployed to:", moneyRouter.address)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main().catch(error => {
+    console.error(error)
+    process.exitCode = 1
+})
