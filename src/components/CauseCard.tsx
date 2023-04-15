@@ -1,15 +1,15 @@
 import { PublicationSearchResultItem } from '@lens-protocol/client/dist/declarations/src/graphql/types.generated';
 import { Card, CardHeader, CardMedia, CardContent, Avatar, } from '@mui/material';
 
-export const upVote = async (lensClient, profileId, publicationId) => {
+// export const upVote = async (lensClient:, profileId, publicationId) => {
 
-  // after wallet connect
+//   // after wallet connect
 
-  // const result = await lensClient.reactions.add({
+//   // const result = await lensClient.reactions.add({
 
-  //   reaction: ReactionTypes.Upvote,
-  // });
-}
+//   //   reaction: ReactionTypes.Upvote,
+//   // });
+// }
 
 export const CauseCard = ({ publication }: { publication: any }) => {
 

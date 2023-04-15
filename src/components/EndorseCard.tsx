@@ -14,7 +14,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import ExpandMoreProps from '@material-ui/core/ExpandMoreProps';
 
 export const EndorseCard = ({ endorsement }: { endorsement: any }) => {
 
