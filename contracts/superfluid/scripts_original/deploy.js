@@ -28,7 +28,7 @@ async function main() {
     const MoneyRouter = await hre.ethers.getContractFactory("MoneyRouter")
     //deploy the money router account using the proper host address and the address of the first signer
     const moneyRouter = await MoneyRouter.deploy(
-        sf.settings.config.hostAddress,
+        // sf.settings.config.hostAddress,
         signers[0].address
     )
 

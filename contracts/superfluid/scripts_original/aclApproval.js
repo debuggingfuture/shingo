@@ -45,7 +45,7 @@ async function main() {
     const aclApproval = daix.updateFlowOperatorPermissions({
         flowOperator: moneyRouter.address,
         flowRateAllowance: "3858024691358024", //10k tokens per month in flowRateAllowanace
-        permissions: 7 //NOTE: this allows for full create, update, and delete permissions. Change this if you want more granular permissioning
+        permissions: 3 //Create or Update ONLY
     })
     await aclApproval.exec(signers[0]).then(function (tx) {
         console.log(`
