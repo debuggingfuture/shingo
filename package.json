@@ -8,6 +8,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "web3": "^1.9.0",
+    "@hypercerts-org/hypercerts-sdk": "^0.0.31",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@lens-protocol/client": "^1.0.1",

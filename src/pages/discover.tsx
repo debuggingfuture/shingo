@@ -60,11 +60,7 @@ const Feed = () => {
 
 
   return <div>
-
     <CardList publications={publications} />
-
-    {JSON.stringify(publications[0])}
-
   </div>
 }
 

@@ -1,14 +1,16 @@
 import _ from 'lodash';
 import { jest, describe, expect, it, beforeAll } from "@jest/globals";
 import { ethers } from "ethers";
-import { follow} from './follow';
+
 import { LensClient, development } from "@lens-protocol/client";
+import { follow} from './follow';
 import { createClient } from './client'
 
 describe("follow", () => {
   let client: LensClient;
   let wallet: ethers.Wallet;
   let profileId: string;
+
   beforeAll(async () => {
      wallet = ethers.Wallet.createRandom();
      client = createClient(wallet);
@@ -20,7 +22,7 @@ describe("follow", () => {
 
     it( 'should create a profile', async () => {
       const profileIdToFollow = '0x773d'
-      const followResults =  await follow( wallet, profileIdToFollow);
+      const followResults =  await follow(wallet, profileIdToFollow);
 
       expect(followResults).toEqual(123)
     });

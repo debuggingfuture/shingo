@@ -12,6 +12,7 @@ import { ethers } from "ethers";
 import {  uploadWithValues } from '../storage/file';
 import { createProfile, getProfileUrl } from './utils';
 
+import { createPost, createComment } from "./create";
 
 jest.setTimeout(5*60*1000);
 

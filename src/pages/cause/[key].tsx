@@ -2,14 +2,16 @@
 import MuiImage from 'mui-image';
 import { createProfile, getProfileUrl, getPostUrl } from '~/lib/lens/utils';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-
+import { useRouter } from 'next/router'
 
 import { Inter } from 'next/font/google'
 import Grid from '@mui/material/Grid'
 import { Avatar, Button } from '@mui/material'
 import Typography from '@mui/material/Typography';
-import { EndorseCard } from '~/components/EndorseCard'
-import { usePublications, useFeed, useExplorePublications, useSearchPublications } from '@lens-protocol/react-web';
+import { EndorseCard } from '~/components/EndorseCard';
+
+
+import { usePublications, useFeed, useExplorePublications, useSearchPublications, useComments } from '@lens-protocol/react-web';
 import { HypercertCard } from '~/components/Hypercert'
 import { createFilter } from '~/components/create-publication-filter';
 import { useActiveProfile, useActiveWallet, useWalletLogout } from '@lens-protocol/react-web';
@@ -19,10 +21,9 @@ import { CommentEditor } from '~/components/CommentEditor';
 const inter = Inter({ subsets: ['latin'] })
 
 export const Endorsements = ({ endorsements }: { endorsements: any[] }) => {
-    const _endorsements = [0, 1, 2];
     return <Grid item>
         {
-            _endorsements.map(endorsement => {
+            endorsements.map(endorsement => {
                 return <EndorseCard endorsement={endorsement} />
             })
         }
@@ -31,9 +32,10 @@ export const Endorsements = ({ endorsements }: { endorsements: any[] }) => {
 }
 
 export default function Cause(props: any) {
-    const { key } = props;
 
-
+    const router = useRouter()
+    const publicationId = router?.query?.key;
+    console.log('props', props, router)
 
     const {
         data: publications,
@@ -43,12 +45,19 @@ export default function Cause(props: any) {
     } = useExplorePublications({
         limit: 10,
         metadataFilter: createFilter({
-            postId: key
+            postId: publicationId
         })
     });
 
-    const { data: profile } = useActiveProfile()
-    console.log('profile', profile?.handle);
+    const { data: profile } = useActiveProfile();
+    const request: PublicationsQueryRequest = {
+
+    }
+    const { data: comments } = useComments({ commentsOf: publicationId });
+
+    // const result = await lensClient.publication.fetchAll(request);
+
+    console.log('profile', profile?.handle, comments);
 
     const handle = profile?.handle
     // if (!key) {
@@ -64,7 +73,7 @@ export default function Cause(props: any) {
 
     // const { lensterUrl } = getProfileUrl(handle)
 
-    const { lensterUrl: lensterPostUrl } = getPostUrl(key)
+    const { lensterUrl: lensterPostUrl } = getPostUrl(publicationId);
 
 
     return (
@@ -195,6 +204,8 @@ export default function Cause(props: any) {
 
                 <Grid container item direction="row" xs={8} justifyContent="flex-start" alignItems="flex-start">
                     Endorsed by
+
+
                     <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
 
                     <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
@@ -220,7 +231,20 @@ export default function Cause(props: any) {
 
 
             <Grid container >
-                <Endorsements endorsements={[]} />
+                <Endorsements endorsements={[
+                    {
+                        name: 'evaluation on water',
+                        description: 'best ever'
+                    },
+                    {
+                        name: 'evaluation on Turtle',
+                        description: 'this helps turtle'
+                    },
+                    {
+                        name: 'evaluation on Co2',
+                        description: 'amazing'
+                    }
+                ]} />
             </Grid>
         </>
     )
